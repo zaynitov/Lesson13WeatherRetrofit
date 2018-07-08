@@ -8,8 +8,7 @@ import retrofit2.http.Header;
 import retrofit2.http.Headers;
 
 public interface ServerApi {
-    @Headers({"Content type:applycation/json"})
-    @GET("getWeather")
-    Call<List<Weather>> getWeather();
+    @GET(".")
+    Call<Weather> getWeather();
 
  }
