@@ -27,7 +27,7 @@ public class MyIntentService extends IntentService {
 
     @Override
     protected void onHandleIntent(@Nullable Intent intent) {
-        ArrayList<String> stringsWeatherPerDay = new ArrayList<String>();
+        ArrayList<ShortWeather> stringsWeatherPerDay = new ArrayList<>();
         ApiMapper apiMapper = new ApiMapper(new RetrofitHelper());
         apiMapper.authAsync();
 
@@ -40,11 +40,11 @@ public class MyIntentService extends IntentService {
         }
         List<Weather> weatherList = apiMapper.getWeatherList().getForecastWithForecastFor7Days().getWeatherList();
         DBManager dbManager = new DBManager(getApplicationContext());
-        Integer DayID = DaysOfWeek.getCurrentDayID()-1;
+        Integer DayID = DaysOfWeek.getCurrentDayID() - 1;
         for (Weather weather : weatherList) {
-            stringsWeatherPerDay.add(DaysOfWeek.getDayByID(DayID) +" " + String.valueOf(Math.round(weather.getTemperatureHigh())));
+            stringsWeatherPerDay.add(new ShortWeather((DaysOfWeek.getDayByID(DayID), String.valueOf(Math.round(weather.getTemperatureHigh())));
             dbManager.addWeather(DaysOfWeek.getDayByID(DayID), String.valueOf(Math.round(weather.getApparentTemperatureHigh())),
-                    String.valueOf(Math.round( weather.getApparentTemperatureLow())),
+                    String.valueOf(Math.round(weather.getApparentTemperatureLow())),
                     String.valueOf(Math.round(weather.getCloudCover())),
                     String.valueOf(Math.round(weather.getPressure())),
                     String.valueOf(Math.round(weather.getTemperatureLow())));
@@ -53,7 +53,7 @@ public class MyIntentService extends IntentService {
 
         ResultReceiver resultReceiver = intent.getParcelableExtra("receiverTag");
         Bundle bundle = new Bundle();
-        bundle.putStringArrayList("list", stringsWeatherPerDay);
+        bundle.putParcelableArrayList("list", stringsWeatherPerDay);
         resultReceiver.send(0, bundle);
 
     }

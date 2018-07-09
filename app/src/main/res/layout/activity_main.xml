@@ -1,4 +1,8 @@
-<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:bind="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable name="adapter" type="com.example.admin.myapplicationjhk.CustomAdapter"/>
+    </data>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -13,7 +17,9 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        />
+        bind:adapter="@{adapter}">
+    </android.support.v7.widget.RecyclerView>
+
     <Button
         android:id="@+id/buttonCreateService"
         android:layout_width="wrap_content"
@@ -24,3 +30,4 @@
         tools:layout_editor_absoluteX="16dp"></Button>
 
 </android.support.constraint.ConstraintLayout>
+</layout>
