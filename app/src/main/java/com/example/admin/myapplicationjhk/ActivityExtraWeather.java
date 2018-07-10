@@ -5,8 +5,10 @@ import android.os.Bundle;
 import android.widget.TextView;
 
 import com.example.admin.myapplicationjhk.model.DBManager;
+import com.example.admin.myapplicationjhk.model.MVPModel;
+import com.example.admin.myapplicationjhk.model.MVPModelImpl;
 
-public class ActivityExtraWeather extends Activity {
+public class ActivityExtraWeather extends Activity implements MVPView {
 
     private TextView textViewDay;
     private TextView textViewapparentTemperatureHigh;
@@ -21,25 +23,32 @@ public class ActivityExtraWeather extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activityextraweather);
         init();
-
     }
 
-    private void init() {
-        String dayOfWeekWithTemp = getIntent().getStringExtra("dayOfWeek");
-        String dayOfWeek = dayOfWeekWithTemp.substring(0, dayOfWeekWithTemp.indexOf(" "));
-        String[] notificationbyDayName = new DBManager(getApplicationContext()).getWeatherByDayName(dayOfWeek);
-        textViewDay = findViewById(R.id.day);
-        textViewapparentTemperatureHigh = findViewById(R.id.appTempHigh);
-        textViewapparentTemperatureLow = findViewById(R.id.appTempLow);
-        textViewCloudCover = findViewById(R.id.appCloudCover);
-        textViewPressure = findViewById(R.id.pressure);
-        textViewTemperature = findViewById(R.id.temperature);
+    @Override
+    public void setData(String[] notificationbyDayName) {
+        if (notificationbyDayName.length < 6) throw new RuntimeException("Check your array");
         textViewDay.setText("Day  " + notificationbyDayName[0]);
         textViewapparentTemperatureHigh.setText("apparentTemperatureHigh  " + notificationbyDayName[1]);
         textViewapparentTemperatureLow.setText("apparentTemperatureLow  " + notificationbyDayName[2]);
         textViewCloudCover.setText("CloudCover  " + notificationbyDayName[3]);
         textViewPressure.setText("Pressure  " + notificationbyDayName[4]);
         textViewTemperature.setText("Temperature  " + notificationbyDayName[5]);
+    }
+
+    private void init() {
+        textViewDay = findViewById(R.id.day);
+        textViewapparentTemperatureHigh = findViewById(R.id.appTempHigh);
+        textViewapparentTemperatureLow = findViewById(R.id.appTempLow);
+        textViewCloudCover = findViewById(R.id.appCloudCover);
+        textViewPressure = findViewById(R.id.pressure);
+        textViewTemperature = findViewById(R.id.temperature);
+        String dayOfWeek = getIntent().getStringExtra("dayOfWeek");
+        DBManager dbManager = new DBManager(getApplicationContext());
+        MVPModel usersModel = new MVPModelImpl(dbManager);
+        MVPPresenter presenter = new MVPPresenterImpl(usersModel);
+        presenter.attachView(this);
+        presenter.loadWeather(dayOfWeek);
     }
 
 }

@@ -18,9 +18,8 @@ public class ApiMapper {
         this.helper = helper;
     }
 
-
     public void authAsync() {
-        helper.getService().getWeather().enqueue(new Callback<WeatherCommon>() {
+        helper.getService().getWeather("361529cbc327cfb9f426fed8464b63a9","42.3601,-71.0589").enqueue(new Callback<WeatherCommon>() {
             @Override
             public void onResponse(Call<WeatherCommon> call, Response<WeatherCommon> response) {
                 weatherList = response.body();

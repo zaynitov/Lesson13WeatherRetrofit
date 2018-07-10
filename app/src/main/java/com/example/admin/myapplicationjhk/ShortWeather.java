@@ -14,6 +14,11 @@ public class ShortWeather implements Parcelable{
 
     }
 
+    public ShortWeather(String dayName, String temp) {
+        this.dayName = dayName;
+        this.temp = temp;
+    }
+
     public String dayName;
     public String temp;
 

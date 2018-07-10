@@ -42,7 +42,8 @@ public class MyIntentService extends IntentService {
         DBManager dbManager = new DBManager(getApplicationContext());
         Integer DayID = DaysOfWeek.getCurrentDayID() - 1;
         for (Weather weather : weatherList) {
-            stringsWeatherPerDay.add(new ShortWeather((DaysOfWeek.getDayByID(DayID), String.valueOf(Math.round(weather.getTemperatureHigh())));
+            stringsWeatherPerDay.add(new ShortWeather((DaysOfWeek.getDayByID(DayID)),
+                    String.valueOf(Math.round(weather.getTemperatureHigh()))));
             dbManager.addWeather(DaysOfWeek.getDayByID(DayID), String.valueOf(Math.round(weather.getApparentTemperatureHigh())),
                     String.valueOf(Math.round(weather.getApparentTemperatureLow())),
                     String.valueOf(Math.round(weather.getCloudCover())),

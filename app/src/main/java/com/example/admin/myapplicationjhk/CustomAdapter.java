@@ -17,7 +17,7 @@ import java.util.List;
 
 public class CustomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private List<ShortWeather> mData;
-    Context context;
+    private Context context;
 
 
     public CustomAdapter(List<ShortWeather> mData, Context context) {
@@ -26,7 +26,6 @@ public class CustomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     }
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
-        public TextView mTextView;
         CellBinding cellBinding;
 
         public MyViewHolder(CellBinding cellBinding) {
@@ -56,6 +55,7 @@ public class CustomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         MyViewHolder viewHolder1 = (MyViewHolder) holder;
         viewHolder1.getCellBinding().setShortweather(mData.get(position));
+
         viewHolder1.getCellBinding().executePendingBindings();
 
 
